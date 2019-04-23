@@ -31,8 +31,7 @@ class ProgramEnrollmentSerializerTests(TestCase):
         )
         self.serializer = ProgramEnrollmentSerializer(instance=self.enrollment)
 
-    def test_contains_expected_fields(self):
-        # from pdb import set_trace; set_trace()
+    def test_serializer_contains_expected_fields(self):
         data = self.serializer.data
 
         self.assertEqual(

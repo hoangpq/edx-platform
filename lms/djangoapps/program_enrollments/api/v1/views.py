@@ -15,6 +15,6 @@ class ProgramEnrollmentsView(APIView):
     POST view for ProgramEnrollments
     """
 
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         from pdb import set_trace;
         return HttpResponse('result')

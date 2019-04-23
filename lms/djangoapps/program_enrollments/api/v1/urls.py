@@ -11,6 +11,6 @@ urlpatterns = [
     url(
         r'^programs/{program_key}/enrollments/$'.format(program_key=r'(?P<program_key>[0-9a-fA-F-]+)'),
         ProgramEnrollmentsView.as_view(),
-        name='course_grades'
+        name='program_enrollments'
     ),
 ]

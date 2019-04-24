@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 import json
+import logging
 from django.db import migrations
 
 
@@ -11,14 +12,18 @@ def move_overrides_to_edx_when(apps, schema_editor):
     from edx_when import api
     date_field = Date()
     StudentFieldOverride = apps.get_model('courseware', 'StudentFieldOverride')
+    log = logging.getLogger(__name__)
     for override in StudentFieldOverride.objects.filter(field='due'):
-        abs_date = date_field.from_json(json.loads(override.value))
-        api.set_date_for_block(
-            override.course_id,
-            override.location,
-            'due',
-            abs_date,
-            user=override.student)
+        try:
+            abs_date = date_field.from_json(json.loads(override.value))
+            api.set_date_for_block(
+                override.course_id,
+                override.location,
+                'due',
+                abs_date,
+                user=override.student)
+        except Exception:  # pylint: disable=broad-except
+            log.exception("migrating %d %r: %r", override.id, override.location, override.value)
 
 
 class Migration(migrations.Migration):
